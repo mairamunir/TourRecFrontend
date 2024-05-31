@@ -3,9 +3,9 @@ import { Box, Button, Typography } from '@mui/material';
 import Login from './login';
 import SignUp from './signup';
 
-
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(false); // State to toggle between login and signup forms
+
 
   const handleLoginClick = () => {
     setShowLogin(true); 
@@ -15,7 +15,7 @@ const AuthPage = () => {
     setShowLogin(false); 
   };
 
-  return (
+ return (
     <Box
       sx={{
         display: 'flex',

@@ -1,31 +1,42 @@
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import axios from "axios";
-import { NotificationManager } from "react-notifications";
+// import { NotificationManager } from "react-notifications";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/user.reducer";
 
+
 const Login = () =>{
     const dispatch = useDispatch();
-
+   
   const formik = useFormik({
     initialValues: {
-      email: "admin@gmail.com",
-      password: "test1234",
+      email: "",
+      password: "",
     },
     onSubmit: async (values) => {
+      try{
       const response = await axios.post(
         "http://localhost:8000/auth/login",
         values
       );
-      if (response.data.msg === "User login successfully." && response.status === 200) {
-        NotificationManager.success(response.data.msg);
+    
+      if (response.status === 200) {
+        
+        toast.success(response.data.msg);
         dispatch(login(response.data.token));
+        
       } else {
-        NotificationManager.error(response.data.msg || response.statusText);
+        toast.error(response.data.msg || response.statusText);
       }
-    },
-  });
+    } catch(error){
+
+      toast.error("An error occurred during login.");
+      console.error("Login error:", error);
+    }
+  }
+});
     return(
         <form
       style={{ display: "flex", flexDirection: "column" }}

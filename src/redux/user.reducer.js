@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {jwtDecode} from "jwt-decode";
 
 const initialState = {
   loggedIn: false,
   token: "",
-}
+  roles : {
+    superadmin: false,
+    admin: false,
+  }
+};
 
 const userSlice = createSlice({
   name: "user",
@@ -12,13 +17,46 @@ const userSlice = createSlice({
     login: (state, action) => {
       state.loggedIn = true;
       state.token = action.payload;
+      
+       // Decode the token to extract user roles
+       const decodedToken = jwtDecode(action.payload);
+       state.roles.superadmin = decodedToken.superadmin;
+       state.roles.admin = decodedToken.admin;
     },
     logout: (state) => {
       state.loggedIn = initialState.loggedIn;
-      state.token = initialState.loggedIn;
+      state.token = initialState.token;
+      state.roles = initialState.roles;
     },
   },
 });
 
 export const { login, logout } = userSlice.actions;
 export default userSlice;
+
+// import { createSlice } from "@reduxjs/toolkit";
+// import jwtDecode from "jwt-decode";
+
+// const initialState = {
+//   loggedIn: false,
+//   token: "",
+// }
+
+// const userSlice = createSlice({
+//   name: "user",
+//   initialState,
+//   reducers: {
+//     login: (state, action) => {
+//       state.loggedIn = true;
+//       state.token = action.payload;
+//     },
+//     logout: (state) => {
+//       state.loggedIn = initialState.loggedIn;
+//       state.token = initialState.token;
+//     },
+//   },
+// });
+
+// export const { login, logout } = userSlice.actions;
+// export default userSlice;
+
