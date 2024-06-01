@@ -8,6 +8,8 @@ import SuperAdminPage from "./components/superadminPage";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import ButtonAppBar from "./components/ButtonAppBar";
+import LandingPage from "./components/LandingPage";
+
 function App() {
   const { loggedIn,roles } = useSelector((state) => state.user);
 
@@ -27,7 +29,8 @@ if (loggedIn) {
   return (
     <div className="App">
       <ButtonAppBar/>
-      <PageComponent/>
+      {loggedIn ? <PageComponent /> : <LandingPage />}
+      {/* <PageComponent/> */}
     {/* {loggedIn ? <UserPage /> : <AuthPage />} */}
 
     <ToastContainer position="top-right"

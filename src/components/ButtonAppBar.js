@@ -10,9 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx = {{backgroundColor : '#7AA59F'}}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -20,12 +20,12 @@ export default function ButtonAppBar() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          </IconButton> */}
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1, textAlign:'center', color: "white", fontWeight: "bold"}}>
             Pakistan Tourism
           </Typography>
-          <Button color="inherit">Signup</Button>
-          <Button color="inherit">Login</Button>
+          {/* <Button color="inherit">Signup</Button>
+          <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
     </Box>

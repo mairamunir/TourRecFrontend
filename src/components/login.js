@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import axios from "axios";
 // import { NotificationManager } from "react-notifications";
@@ -42,6 +42,9 @@ const Login = () =>{
       style={{ display: "flex", flexDirection: "column" }}
       onSubmit={formik.handleSubmit}
     >
+      <Typography variant="h4" sx={{ fontWeight: 'bold',marginBottom: 2 }}>
+        LOG IN
+      </Typography>
       <TextField
       required
         onChange={formik.handleChange}
@@ -61,7 +64,7 @@ const Login = () =>{
         variant="outlined"
         sx={{ marginBottom: 2 }}
       />
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" sx={{backgroundColor : '#7AA59F'}}>
         Login
       </Button>
     </form>

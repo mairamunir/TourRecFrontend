@@ -1,4 +1,4 @@
-import { Button, TextField, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, TextField, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import axios from "axios";
 //import {NotificationContainer, NotificationManager } from "react-notifications";
@@ -47,7 +47,9 @@ const SignUp = () =>{
       onSubmit={formik.handleSubmit}
     >
     
-    
+    <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
+        SIGN UP
+      </Typography>
       <TextField
       required
         onChange={formik.handleChange}
@@ -111,7 +113,7 @@ const SignUp = () =>{
         </Select>
       </FormControl>
 
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" sx={{backgroundColor : '#7AA59F'}}>
         Sign Up
       </Button>
     </form>
