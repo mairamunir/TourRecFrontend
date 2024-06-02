@@ -23,7 +23,7 @@ const SignUp = () =>{
         onSubmit: async (values) => {
           
           try {
-            const response = await axios.post("http://localhost:8000/auth/signup", {
+            const response = await axios.post("http://localhost:3000/auth/signup", {
               ...values,
               admin: false,
             });

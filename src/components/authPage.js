@@ -27,9 +27,7 @@ const AuthPage = () => {
         height: '100vh',
       }}
     > 
-    {/* <Typography variant="h4" mb={4}>
-      Welcome to Pakistan Tourism!!
-    </Typography> */}
+    
     <Box mb={2}>
     <Button 
   variant={showLogin ? 'outlined' : 'contained'} 

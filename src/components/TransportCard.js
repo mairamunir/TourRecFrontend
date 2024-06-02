@@ -45,7 +45,7 @@ console.log(transport.image);
           {transport.company}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {transport.type}, {transport.contact}
+          {transport.type}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -62,7 +62,11 @@ console.log(transport.image);
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        
+        <CardContent>
+            <Typography variant="body2" color="text.secondary">
+               Contact: {transport.contact}
+            </Typography>
+        </CardContent>
       </Collapse>
     </Card>
   );

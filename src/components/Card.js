@@ -34,9 +34,9 @@ const CardComp = ({ city }) => {
   };
 console.log(city.image);
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 , maxHeight:350}}>
       <CardMedia
-        sx={{ height: 140 }}
+        sx={{ height: 180 }}
         image={city.image} 
         title={city.name}
       />
@@ -45,7 +45,7 @@ console.log(city.image);
           {city.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {city.country}, {city.province}
+          {city.province}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

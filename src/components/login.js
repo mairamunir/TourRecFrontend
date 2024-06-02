@@ -18,7 +18,7 @@ const Login = () =>{
     onSubmit: async (values) => {
       try{
       const response = await axios.post(
-        "http://localhost:8000/auth/login",
+        "http://localhost:3000/auth/login",
         values
       );
     

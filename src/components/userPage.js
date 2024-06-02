@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import CardComp from './Card';
+import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 
 const UserPage = () => {
-  const [cities, setCities] = useState([]);
-  const token = useSelector((state) => state.user.token);
+
 const navigate = useNavigate();
 
-  const fetchCities = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/city/getAll", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      if (response.data.data) {
-        setCities(response.data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching cities:', error);
-    }
-  };
 
-  useEffect(() => {
-    fetchCities();
-  }, []);
 
   return (
     <div>
@@ -37,7 +17,7 @@ const navigate = useNavigate();
           <button style={{ marginRight: '10px' }}>Restaurants</button>
 
           <button style={{ marginRight: '10px' }} onClick={()=>navigate('/transport')}>Transports</button>
-          
+
           <button style={{ marginRight: '10px' }}>Activities</button>
           <button style={{ marginRight: '10px' }}>Landmarks</button>
           <button style={{ marginRight: '10px' }} onClick={() => navigate('/city')}>Cities</button>
