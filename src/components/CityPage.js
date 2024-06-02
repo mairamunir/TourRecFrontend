@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import CardComp from './Card';
+import CardComponent from './CardUniversal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -85,18 +85,7 @@ const CityPage = () => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ backgroundColor: '#7AA59F', padding: '20px', textAlign: 'center' }}>
-        <div>
-          <button style={{ marginRight: '10px' }}>Hotels</button>
-          <button style={{ marginRight: '10px' }}>Restaurants</button>
-          <button style={{ marginRight: '10px' }} onClick={() => navigate('/transport')}>Transports</button>
-          <button style={{ marginRight: '10px' }}>Activities</button>
-          <button style={{ marginRight: '10px' }}>Landmarks</button>
-          <button style={{ marginRight: '10px' }} onClick={() => navigate('/user')}>User Page</button>
-          <button>Guides</button>
-        </div>
-      </div>
-
+     
       <div style={{ padding: '20px' }}>
         <h1>Cities to Explore!</h1>
         <p>This is where you can choose the next city to explore.</p>
@@ -118,12 +107,15 @@ const CityPage = () => {
 
           <button style={{ marginLeft: '10px' }} onClick={handleSearch}>Search</button>
         </div>
-
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           {searchResults.map(city => (
-            <div key={city._id} style={{ width: '250px', margin: '10px' }}>
-              <CardComp city={city} />
-            </div>
+             <CardComponent  
+             key={city._id}
+             image={city.image} 
+             title={city.name} 
+             subtitle={city.province} 
+           
+            />
           ))}
         </div>
       </div>
@@ -132,6 +124,7 @@ const CityPage = () => {
 };
 
 export default CityPage;
+
 
 
 // import React, { useEffect, useState } from 'react';

@@ -1,74 +1,10 @@
-// import { useNavigate } from "react-router-dom";
-// import { useState,useEffect } from "react";
-// import { useSelector } from "react-redux";
-// import TransportCard from "./TransportCard";
-// import axios from "axios";
-
-// const TransportPage =() =>{
-//     const navigate = useNavigate();
-
-//     const [transports, setTransports] = useState([]);
-//     const token = useSelector((state) => state.user.token);
- 
-//     const fetchTransports = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:8000/transport/getAll", {
-//           headers: {
-//             Authorization: `Bearer ${token}`
-//           }
-//         });
-//         if (response.data.data) {
-//           setTransports(response.data.data);
-//           console.log("transport fetched");
-//         }
-//       } catch (error) {
-//         console.error('Error fetching transport details:', error);
-//       }
-//     };
-  
-//     useEffect(() => {
-//       fetchTransports();
-//     }, []);
-
-//     return(
-//         <div  style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-//       <div style={{ backgroundColor: '#7AA59F', padding: '20px', textAlign: 'center' }}>
-//         <div>
-//           <button style={{ marginRight: '10px' }}>Hotels</button>
-//           <button style={{ marginRight: '10px' }}>Restaurants</button>
-//           <button style={{ marginRight: '10px' }} onClick={()=>navigate('/city')}>Cities</button>
-//           <button style={{ marginRight: '10px' }}>Activities</button>
-//           <button style={{ marginRight: '10px' }}>Landmarks</button>
-//           <button style={{ marginRight: '10px' }} onClick={()=>navigate('/user')}>User Page</button>
-//           <button>Guides</button>
-//         </div>
-//       </div>
-      
-//         <div style={{ padding: '20px' }}>
-//         <h1>Transport!</h1>
-//         <p>This is where you can find transport to your next adventure.</p>
-//              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-//         {transports.map(transport => (
-//           <div key={transport._id} style={{ width: '250px', margin: '10px' }}> {/* Set fixed width and margin */}
-//             <TransportCard transport={transport} />
-//           </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-
-//     )
-// }
-// export default TransportPage;
-
 
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
-import TransportCard from "./TransportCard";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import CardComponent from "./CardUniversal";
 const TransportPage =() =>{
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
@@ -143,18 +79,6 @@ const TransportPage =() =>{
 
     return(
         <div  style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ backgroundColor: '#7AA59F', padding: '20px', textAlign: 'center' }}>
-        <div>
-          <button style={{ marginRight: '10px' }}>Hotels</button>
-          <button style={{ marginRight: '10px' }}>Restaurants</button>
-          <button style={{ marginRight: '10px' }} onClick={()=>navigate('/city')}>Cities</button>
-          <button style={{ marginRight: '10px' }}>Activities</button>
-          <button style={{ marginRight: '10px' }}>Landmarks</button>
-          <button style={{ marginRight: '10px' }} onClick={()=>navigate('/user')}>User Page</button>
-          <button>Guides</button>
-        </div>
-      </div>
-      
         <div style={{ padding: '20px' }}>
         <h1>Transport!</h1>
         <p>This is where you can find transport to your next adventure.</p>
@@ -177,13 +101,17 @@ const TransportPage =() =>{
                      
                     <button style={{ marginLeft: '10px'}} onClick={handleSearch}>Search</button>
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    {searchResults.map(transport => (
-                        <div key={transport._id} style={{ width: '250px',margin: '10px' }}>
-                            <TransportCard transport={transport} />
-                        </div>
-                    ))}
-                </div>
+                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {searchResults.map(transport => (
+             <CardComponent 
+             key={transport._id}
+             image={transport.image} 
+             title={transport.name} 
+             subtitle={transport.type}
+             additionalInfo= {`Contact: ${transport.contact}`}
+            />
+          ))}
+        </div>
             </div>
         </div>
     )

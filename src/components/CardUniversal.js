@@ -1,5 +1,5 @@
-
 import * as React from 'react';
+import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -26,30 +26,63 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const CardComp = ({ city }) => {
+const CardComponent = ({ image, title, subtitle, additionalInfo, type, itemName, userEmail}) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [wishlistAdded, setWishlistAdded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-console.log(city.image);
+
+  const toggleWishlist = async () => {
+    try {
+      if (wishlistAdded) {
+        // Remove from wishlist
+        const response = await axios.post("http://localhost:3000/wishlist/deleteFromWishlist", {
+          email: userEmail,
+          type: type,
+          itemName: itemName
+        });
+        if (response.status === 200) {
+          setWishlistAdded(false);
+          console.log(response.data.message);
+        }
+      } else {
+        // Add to wishlist
+        const response = await axios.post("http://localhost:3000/wishlist/addToWishlist", {
+          email: userEmail,
+          type: type,
+          itemName: itemName
+        });
+        if (response.status === 200) {
+          setWishlistAdded(true);
+          console.log(response.data.message);
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist", error);
+    }
+  };
+
+
+
   return (
-    <Card sx={{ maxWidth: 345 , maxHeight:350}}>
+    <Card sx={{ width: 250, height:300, margin: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <CardMedia
-        sx={{ height: 180 }}
-        image={city.image} 
-        title={city.name}
+        sx={{ height: 180}}
+        image={image} 
+        title={title}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {city.name}
+          {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {city.province}
+          {subtitle}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to wishlist">
+        <IconButton aria-label="add to wishlist" onClick={toggleWishlist} color={wishlistAdded ? "secondary" : "default"}>
           <FavoriteIcon />
         </IconButton>
         <ExpandMore
@@ -62,10 +95,14 @@ console.log(city.image);
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        
+        <CardContent>
+          <Typography paragraph>
+           {additionalInfo}
+          </Typography>
+        </CardContent>
       </Collapse>
     </Card>
   );
 };
 
-export default CardComp;
+export default CardComponent;

@@ -34,29 +34,3 @@ const userSlice = createSlice({
 export const { login, logout } = userSlice.actions;
 export default userSlice;
 
-// import { createSlice } from "@reduxjs/toolkit";
-// import jwtDecode from "jwt-decode";
-
-// const initialState = {
-//   loggedIn: false,
-//   token: "",
-// }
-
-// const userSlice = createSlice({
-//   name: "user",
-//   initialState,
-//   reducers: {
-//     login: (state, action) => {
-//       state.loggedIn = true;
-//       state.token = action.payload;
-//     },
-//     logout: (state) => {
-//       state.loggedIn = initialState.loggedIn;
-//       state.token = initialState.token;
-//     },
-//   },
-// });
-
-// export const { login, logout } = userSlice.actions;
-// export default userSlice;
-
