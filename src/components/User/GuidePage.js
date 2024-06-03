@@ -4,7 +4,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { Box,Typography } from "@mui/material";
+import { ArrowBackIos } from "@mui/icons-material";
 const GuidePage = () => {
   const [guides, setGuides] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +42,7 @@ const GuidePage = () => {
       searchGuide();
     }
   }, [searchName]);
-  
+
   const searchGuide = async () => {
     try {
       let response;
@@ -85,7 +86,13 @@ const GuidePage = () => {
   };
 
   return (
-    <div>
+    <Box>
+
+<Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <ArrowBackIos onClick={()=>navigate('/userPage')} sx={{cursor: 'pointer',float: "left", marginTop:2, marginLeft:2, marginBottom: 2 }}/>
+    <Typography variant="body1" sx={{ marginLeft: 1 }}>Back to Home Page</Typography>
+    </Box>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column'}} >
       <div style={{ padding: '20px' }}>
         <h1>Guides!</h1>
 
@@ -116,6 +123,7 @@ const GuidePage = () => {
         </div>
       </div>
     </div>
+    </Box>
   );
 };
 

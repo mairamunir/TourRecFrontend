@@ -4,6 +4,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Box,Typography } from "@mui/material";
+import { ArrowBackIos } from "@mui/icons-material";
 
 const LandmarksPage = () => {
   const [landmarks, setLandmarks] = useState([]);
@@ -84,7 +86,13 @@ const handleSearch = () => {
   }
 };
   return (
-    <div>
+    <Box>
+       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <ArrowBackIos onClick={()=>navigate('/userPage')} sx={{cursor: 'pointer',float: "left", marginTop:2, marginLeft:2, marginBottom: 2 }}/>
+    <Typography variant="body1" sx={{ marginLeft: 1 }}>Back to Home Page</Typography>
+    
+    </Box>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '20px' }}>
         <h1>Landmarks!</h1>
         <p>This is where you can discover famous landmarks to visit.</p>
@@ -116,6 +124,8 @@ const handleSearch = () => {
         </div>
       </div>
    </div>
+   </Box>
+
   );
 };
 

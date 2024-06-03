@@ -15,13 +15,19 @@ import HotelPage from "./components/User/HotelPage";
 import RestaurantPage from "./components/User/RestaurantPage";
 import LandmarksPage from "./components/User/LandmarkPage";
 import GuidePage from "./components/User/GuidePage";
-import LogoutComponent from "./components/LogoutComp";
+
 import NavigationBar from "./components/navBar";
 import UpdatePassword from "./components/Auth/updatePassword";
 import ViewDetails from "./components/User/viewProfile";
 import RegisterAdmin from "./components/SuperAdmin/registerAdmin";
 import ViewAllUsers from "./components/SuperAdmin/viewAllUsers";
 import AddLandmarkForm from "./components/Admin/AddLandmark";
+import AddHotelForm from "./components/Admin/addHotel";
+import AddTransportForm from "./components/Admin/addTransport";
+import AddCityForm from "./components/Admin/addCity";
+import AddGuideForm from "./components/Admin/addGuide";
+import DashBoard from "./components/dashBoard";
+import AdminActions from "./components/Admin/adminAction";
 
 function App() {
   const { loggedIn,roles } = useSelector((state) => state.user);
@@ -46,33 +52,33 @@ if (loggedIn) {
         <ButtonAppBar />
 
         {loggedIn && <NavigationBar/>}
+        
         <Routes>
           <Route path="/" element={<PageComponent />} />
           <Route path="/city" element={<CityPage />} />
           <Route path= "/user" element={<UserPage/>}/>
           <Route path ="/auth" element = {<AuthPage/>}/>
-
           <Route path ="/hotel" element = {<HotelPage/>}/>
-
           <Route path ="/activity" element = {<ActivitiesPage/>}/>
-
           <Route path ="/restaurant" element = {<RestaurantPage/>}/>
-
           <Route path ="/landmark" element = {<LandmarksPage/>}/>
-
           <Route path ="/guide" element = {<GuidePage/>}/>
-
           <Route path ="/transport" element={<TransportPage/>}/>
 
-          <Route path = "/updatePassword" element= {<UpdatePassword/>}/>
+          <Route path ="/dashboard" element={<DashBoard/>}/>
+
+          <Route path ="/adminActions" element={<AdminActions/>}/>
 
           <Route path = "/viewProfile" element= {<ViewDetails/>}/>
-
+          {/*forms */}
+          <Route path = "/updatePassword" element= {<UpdatePassword/>}/>
           <Route path = "/registerAdmin" element= {<RegisterAdmin/>}/>
-
           <Route path = "/addLandmark" element= {<AddLandmarkForm/>}/>
-
           <Route path = "/viewAllUsers" element= {<ViewAllUsers/>}/>
+          <Route path = "/addHotel" element= {<AddHotelForm/>}/>
+          <Route path = "/addTransport" element= {<AddTransportForm/>}/>
+          <Route path = "/addCity" element= {<AddCityForm/>}/>
+          <Route path = "/addGuide" element= {<AddGuideForm/>}/>
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

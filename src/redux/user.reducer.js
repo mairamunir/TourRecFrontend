@@ -7,7 +7,10 @@ const initialState = {
   roles : {
     superAdmin: false,
     admin: false,
-  }
+    province: null 
+  },
+  firstName: "", //new
+  lastName: "", //new
 };
 
 const userSlice = createSlice({
@@ -22,11 +25,16 @@ const userSlice = createSlice({
        const decodedToken = jwtDecode(action.payload);
        state.roles.superAdmin = decodedToken.superAdmin;
        state.roles.admin = decodedToken.admin;
+       state.roles.province =decodedToken.province;
+       state.firstName = action.payload.firstName; // Set the firstName from the action payload
+       state.lastName = action.payload.lastName;   
     },
     logout: (state) => {
       state.loggedIn = initialState.loggedIn;
       state.token = initialState.token;
       state.roles = initialState.roles;
+      state.firstName = initialState.firstName; // Reset the firstName
+      state.lastName = initialState.lastName; 
     },
   },
 });

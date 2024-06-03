@@ -16,8 +16,6 @@ const navigate = useNavigate();
       <button style={{ marginRight: '10px' }} onClick={() => navigate('/landmark')}>Landmarks</button>
       <button style={{ marginRight: '10px' }} onClick={() => navigate('/city')}>Cities</button>
       <button style={{ marginRight: '10px' }} onClick={() => navigate('/guide')}>Guides</button>
-      {/* <button style={{ float: 'right', marginRight: '10px', fontSize: '15px', padding: '5px 15px' }} onClick={handleLogout}>Log Out</button> */}
-      <button onClick={()=> navigate('/user')}>User Page</button>
       <div style={{ float: 'right', marginRight: '10px', fontSize: '15px', padding: '5px 15px' }} >
       <DropdownMenu />
       </div>

@@ -3,11 +3,11 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-
-
+import { ArrowBackIos } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 const UpdatePassword = () => {
   const token = useSelector((state) => state.user.token);
-
+const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -64,6 +64,7 @@ const UpdatePassword = () => {
         textAlign: 'center',
         backgroundColor: '#E9F3F2',
       }}>
+        <ArrowBackIos onClick={()=>navigate('/')} sx={{cursor: 'pointer',float: "left" }}/>
         <form
           style={{ display: "flex", flexDirection: "column" }}
           onSubmit={formik.handleSubmit}

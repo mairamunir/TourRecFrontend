@@ -1,3 +1,5 @@
+
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/user.reducer';
 
-const settings = ['Update Password', 'ViewProfile','Log Out'];
+
+const settings = ['Update Password', 'View Profile','Log Out'];
 
 function DropdownMenu() {
  
@@ -30,13 +33,16 @@ const navigate = useNavigate();
     handleCloseUserMenu();
     if (setting === 'Log Out') {
       dispatch(logout());
-      navigate('/auth');
+      navigate('/');
     } else if (setting === 'Update Password') {
       navigate('/updatePassword'); 
     } else if (setting === 'View Profile') {
       navigate('/viewProfile'); 
     }
   };
+
+
+
 
   return (
     <Box sx={{ flexGrow: 0 }}>

@@ -1,46 +1,13 @@
 import { Button,Box,ButtonGroup,Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "../navBar";
-import DashBoard from "../dashBoard";
-import { useSelector } from "react-redux";
-import { MarginTwoTone } from "@mui/icons-material";
-const AdminPage = () => {
-const roles = useSelector((state)=>state.user.roles);
+import { ArrowBackIos } from "@mui/icons-material";
+const AdminActions = () => {
+
     const navigate=useNavigate();
     return (
 <Box >  
-    {/* <Typography variant="h5" sx={{ marginLeft: 2,fontWeight: 'bold'}}>
-        Welcome {roles.province ? `${roles.province} Admin` : 'Admin'}!
-      </Typography>
 
-<Button sx={{ backgroundColor: '#7AA59F', padding: '10px', textAlign: 'center', float: "right" , marginBottom: 20}}>Admin Actions</Button> */}
- <Box sx={{ marginBottom: 2}}>
-        <Typography variant="h5" sx={{ marginBottom: 2, fontWeight: 'bold', color: '#015656' }}>
-          Welcome {roles.province ? `${roles.province} Admin` : 'Admin'}!
-        </Typography>
-        <Button 
-          onClick={() => navigate('/adminActions')} 
-          sx={{ 
-            backgroundColor: '#7AA59F', 
-            color: '#fff', 
-            padding: '10px 20px', 
-            textAlign: 'center',
-            '&:hover': {
-              backgroundColor: '#5e8c82'
-            },
-            marginBottom: 2,
-            
-          }}
-          variant="contained"
-        >
-          Admin Actions
-        </Button>
-      </Box>
-   <DashBoard/>
-
- 
-
-    {/* <Box  sx={{
+    <Box  sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -49,7 +16,7 @@ const roles = useSelector((state)=>state.user.roles);
         paddingTop: '10vh',
       }}
     >
-        <Typography variant='h6' sx={{ fontWeight: 'bold', marginBottom: 4 }}>Admin Functions</Typography>
+        
     <Paper  elevation={4} 
         sx={{
           p: 3, // padding
@@ -58,7 +25,10 @@ const roles = useSelector((state)=>state.user.roles);
           textAlign: 'center', 
           backgroundColor: '#E9F3F2',
         }}>
+
     
+<ArrowBackIos onClick={()=>navigate('/adminPage')} sx={{cursor: 'pointer',float: "left" }}/>
+<Typography variant='h5' sx={{ fontWeight: 'bold', marginBottom: 4 }}>Admin Actions</Typography>
       <Button variant="contained" sx={{backgroundColor : '#7AA59F', marginBottom: 2,  width: '100%','&:hover':{
         backgroundColor : '#02564E',
       }}} onClick={()=>navigate('/addLandmark')}>Add Landmark</Button>
@@ -81,10 +51,10 @@ const roles = useSelector((state)=>state.user.roles);
 
     
     </Paper>
-  </Box> */}
+  </Box>
 
   </Box>  
     )
 }
 
-export default AdminPage;
+export default AdminActions;

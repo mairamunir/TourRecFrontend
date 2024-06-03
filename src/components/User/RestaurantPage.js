@@ -4,6 +4,8 @@ import axios from 'axios';
 import CardComponent from './CardUniversal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Box,Typography } from "@mui/material";
+import { ArrowBackIos } from "@mui/icons-material";
 
 const RestaurantPage = () => {
   const [restaurant, setRestaurants] = useState([]);
@@ -95,7 +97,15 @@ const RestaurantPage = () => {
   };
 
   return (
-    <div>
+<Box>
+   
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <ArrowBackIos onClick={()=>navigate('/userPage')} sx={{cursor: 'pointer',float: "left", marginTop:2, marginLeft:2, marginBottom: 2 }}/>
+    <Typography variant="body1" sx={{ marginLeft: 1 }}>Back to Home Page</Typography>
+    </Box>
+
+
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '20px' }}>
         <h1>Restaurants!</h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', padding: '20px' }}>
@@ -127,6 +137,7 @@ const RestaurantPage = () => {
         </div>
       </div>
     </div>
+    </Box>
   );
 };
 

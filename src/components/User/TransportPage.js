@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "./CardUniversal";
+import { Box,Typography } from "@mui/material";
+import { ArrowBackIos } from "@mui/icons-material";
+
 const TransportPage =() =>{
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
@@ -78,6 +81,13 @@ const TransportPage =() =>{
     };
 
     return(
+        <Box>
+
+<Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <ArrowBackIos onClick={()=>navigate('/userPage')} sx={{cursor: 'pointer',float: "left", marginTop:2, marginLeft:2, marginBottom: 2 }}/>
+    <Typography variant="body1" sx={{ marginLeft: 1 }}>Back to Home Page</Typography>
+    </Box>
+
         <div  style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '20px' }}>
         <h1>Transport!</h1>
@@ -114,6 +124,7 @@ const TransportPage =() =>{
         </div>
             </div>
         </div>
+        </Box>
     )
 }
 export default TransportPage;

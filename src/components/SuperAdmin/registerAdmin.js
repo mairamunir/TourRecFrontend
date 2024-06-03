@@ -4,13 +4,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
-
-
+import { useNavigate } from "react-router-dom";
+import { ArrowBackIos } from "@mui/icons-material";
 const provinces = ["Sindh", "Punjab", "Khyber Pakhtunkhwa", "Balochistan"];
 
 const RegisterAdmin = () =>{
     const token = useSelector((state) => state.user.token);
-
+const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
           firstName: "",
@@ -61,8 +61,8 @@ const RegisterAdmin = () =>{
       style={{ display: "flex", flexDirection: "column"}}
       onSubmit={formik.handleSubmit}
     >
-    
-    <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
+    <ArrowBackIos onClick={()=>navigate('/superadminPage')} sx={{cursor: 'pointer',float: "left" }}/>
+    <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
         REGISTER ADMIN
       </Typography>
       <TextField
