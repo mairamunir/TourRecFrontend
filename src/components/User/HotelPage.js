@@ -1,51 +1,68 @@
-import CardComponent from "./CardUniversal";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+/* HotelPage.js */
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import CardComponent from './CardUniversal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const GuidePage = () => {
-  const [guides, setGuides] = useState([]);
+const HotelPage = () => {
+  const [hotels, setHotels] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchName, setSearchName] = useState("all");
   const [searchResults, setSearchResults] = useState([]);
+
   const token = useSelector((state) => state.user.token);
   const navigate = useNavigate();
 
-  const fetchGuides = async () => {
+  useEffect(() => {
+    if (searchName === "all") {
+      fetchHotels();
+    } else {
+      searchHotel();
+    }
+  }, [searchName]);
+
+  const fetchHotels = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/guide/getAll", {
+      const response = await axios.get("http://localhost:3000/hotel/getAll", {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         }
       });
       if (response.data.data) {
-        setGuides(response.data.data);
+        setHotels(response.data.data);
+        setSearchResults(response.data.data);
+      } else {
+        toast.error(response.data.msg || 'Error fetching hotels');
       }
+
     } catch (error) {
-      console.error('Error fetching Guides:', error);
+      console.error('Error fetching hotels:', error);
+      toast.error('Error fetching cities.');
+
     }
   };
 
-  useEffect(() => {
-    if (searchName === "all") {
-      fetchGuides();
-    } else {
-      searchGuide();
-    }
-  }, [searchName]);
-  const searchGuide = async () => {
+
+  const searchHotel = async () => {
     try {
       let response;
-      if (searchName === "city") {
-        response = await axios.post("http://localhost:3000/guide/searchByCityName", { name: searchQuery }, {
+      if (searchName === "branch") {
+        response = await axios.post("http://localhost:3000/hotel/getByBranchName", { name: searchQuery }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-      } else if (searchName === "name") {
-        response = await axios.post("http://localhost:3000/guide/searchByName", { name: searchQuery }, {
+      }else if (searchName === "company") {
+        response = await axios.post("http://localhost:3000/hotel/getByCompanyName", { name: searchQuery }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } 
+      else if (searchName === "city") {
+        response = await axios.post("http://localhost:3000/hotel/getByCityName", { name: searchQuery }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -60,18 +77,18 @@ const GuidePage = () => {
           setSearchResults([response.data.data]);
         }
       } else {
-        toast.error(response.data.msg || 'No guides found.');
+        toast.error(response.data.msg || 'No hotel found.');
         setSearchResults([]);
       }
     } catch (error) {
-      console.error('Error searching guide:', error);
-      toast.error('Error searching guide.');
+      console.error('Error searching hotel:', error);
+      toast.error('Error searching hotel.');
     }
   };
 
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
-      searchGuide();
+      searchHotel();
     } else {
       toast.warning('Please enter a search query.');
     }
@@ -79,8 +96,9 @@ const GuidePage = () => {
 
   return (
     <div>
+    
       <div style={{ padding: '20px' }}>
-        <h1>Guides!</h1>
+        <h1>Hotels</h1>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', padding: '20px' }}>
           <input
@@ -100,11 +118,14 @@ const GuidePage = () => {
           <button style={{ marginLeft: '10px' }} onClick={handleSearch}>Search</button>
         </div>
 
-
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {guides.map(guide => (
-            <CardComponent key={guide._id} image={guide.image} title={guide.name} 
-            subtitle={guide.number} additionalInfo="email" />
+        <div style={{ display: 'flex', flexWrap: 'wrap', padding: '20px'}}>
+          {hotels.map(hotel => (
+            <CardComponent  key={hotel._id}
+            image={hotel.image} 
+            title={hotel.branch} 
+            subtitle={`${hotel.city.name}, ${hotel.city.province}`} 
+            additionalInfo="website/contact"
+           /> 
           ))}
         </div>
       </div>
@@ -112,4 +133,4 @@ const GuidePage = () => {
   );
 };
 
-export default GuidePage;
+export default HotelPage;

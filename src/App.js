@@ -1,29 +1,34 @@
 import React from "react";
-import AuthPage from "./components/authPage";
-import UserPage from "./components/userPage";
-import AdminPage from "./components/adminPage";
-import SuperAdminPage from "./components/superadminPage";
+import AuthPage from "./components/Auth/authPage";
+import UserPage from "./components/User/userPage";
+import AdminPage from "./components/Admin/adminPage";
+import SuperAdminPage from "./components/SuperAdmin/superadminPage";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import ButtonAppBar from "./components/ButtonAppBar";
+import ButtonAppBar from "./components/User/ButtonAppBar";
 import LandingPage from "./components/LandingPage";
-import CityPage from "./components/CityPage";
+import CityPage from "./components/User/CityPage";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import TransportPage from "./components/TransportPage";
-import ActivitiesPage from "./components/ActivityPage";
-import HotelPage from "./components/HotelPage";
-import RestaurantPage from "./components/RestaurantPage";
-import LandmarksPage from "./components/LandmarkPage";
-import GuidePage from "./components/GuidePage";
+import TransportPage from "./components/User/TransportPage";
+import ActivitiesPage from "./components/User/ActivityPage";
+import HotelPage from "./components/User/HotelPage";
+import RestaurantPage from "./components/User/RestaurantPage";
+import LandmarksPage from "./components/User/LandmarkPage";
+import GuidePage from "./components/User/GuidePage";
 import LogoutComponent from "./components/LogoutComp";
 import NavigationBar from "./components/navBar";
+import UpdatePassword from "./components/Auth/updatePassword";
+import ViewDetails from "./components/User/viewProfile";
+import RegisterAdmin from "./components/SuperAdmin/registerAdmin";
+import ViewAllUsers from "./components/SuperAdmin/viewAllUsers";
+import AddLandmarkForm from "./components/Admin/AddLandmark";
 
 function App() {
   const { loggedIn,roles } = useSelector((state) => state.user);
 
 let PageComponent;
 if (loggedIn) {
-  if (roles.superadmin) {
+  if (roles.superAdmin) {
     PageComponent = SuperAdminPage;
   } else if (roles.admin) {
     PageComponent = AdminPage;
@@ -37,8 +42,9 @@ if (loggedIn) {
   return (
 <Router>
       <div className="App">
+        
         <ButtonAppBar />
-     
+
         {loggedIn && <NavigationBar/>}
         <Routes>
           <Route path="/" element={<PageComponent />} />
@@ -57,6 +63,17 @@ if (loggedIn) {
           <Route path ="/guide" element = {<GuidePage/>}/>
 
           <Route path ="/transport" element={<TransportPage/>}/>
+
+          <Route path = "/updatePassword" element= {<UpdatePassword/>}/>
+
+          <Route path = "/viewProfile" element= {<ViewDetails/>}/>
+
+          <Route path = "/registerAdmin" element= {<RegisterAdmin/>}/>
+
+          <Route path = "/addLandmark" element= {<AddLandmarkForm/>}/>
+
+          <Route path = "/viewAllUsers" element= {<ViewAllUsers/>}/>
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer

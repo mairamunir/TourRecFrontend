@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Box, Button, Typography,Paper } from '@mui/material';
 import Login from './login';
 import SignUp from './signup';
-import ButtonAppBar from './ButtonAppBar';
-
+import ButtonAppBar from '../User/ButtonAppBar';
+import { useNavigate } from 'react-router-dom';
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(false); // State to toggle between login and signup forms
-
+const navigate=useNavigate();
 
   const handleLoginClick = () => {
     setShowLogin(true); 
@@ -63,6 +63,7 @@ const AuthPage = () => {
       {showLogin ? <Login /> : <SignUp />}
       
       </Paper>
+      
     </Box>
   );
 };

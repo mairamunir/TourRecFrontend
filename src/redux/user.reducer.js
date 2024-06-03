@@ -5,7 +5,7 @@ const initialState = {
   loggedIn: false,
   token: "",
   roles : {
-    superadmin: false,
+    superAdmin: false,
     admin: false,
   }
 };
@@ -20,7 +20,7 @@ const userSlice = createSlice({
       
        // Decode the token to extract user roles
        const decodedToken = jwtDecode(action.payload);
-       state.roles.superadmin = decodedToken.superadmin;
+       state.roles.superAdmin = decodedToken.superAdmin;
        state.roles.admin = decodedToken.admin;
     },
     logout: (state) => {

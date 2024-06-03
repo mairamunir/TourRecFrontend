@@ -4,7 +4,7 @@ import axios from "axios";
 // import { NotificationManager } from "react-notifications";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/user.reducer";
+import { login } from "../../redux/user.reducer";
 
 
 const Login = () =>{

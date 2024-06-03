@@ -1,16 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../redux/user.reducer';
+import DropdownMenu from './User/dropDown';
 
 const NavigationBar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/auth'); 
-  };
+
 
   return (
     <div style={{ backgroundColor: '#7AA59F', padding: '20px', textAlign: 'center' }}>
@@ -21,8 +16,11 @@ const NavigationBar = () => {
       <button style={{ marginRight: '10px' }} onClick={() => navigate('/landmark')}>Landmarks</button>
       <button style={{ marginRight: '10px' }} onClick={() => navigate('/city')}>Cities</button>
       <button style={{ marginRight: '10px' }} onClick={() => navigate('/guide')}>Guides</button>
-      <button style={{ float: 'right', marginRight: '10px', fontSize: '15px', padding: '5px 15px' }} onClick={handleLogout}>Log Out</button>
+      {/* <button style={{ float: 'right', marginRight: '10px', fontSize: '15px', padding: '5px 15px' }} onClick={handleLogout}>Log Out</button> */}
       <button onClick={()=> navigate('/user')}>User Page</button>
+      <div style={{ float: 'right', marginRight: '10px', fontSize: '15px', padding: '5px 15px' }} >
+      <DropdownMenu />
+      </div>
     </div>
   );
 };

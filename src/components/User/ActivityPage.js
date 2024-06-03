@@ -128,3 +128,111 @@ const ActivitiesPage = ({ onBack }) => {
 };
 
 export default ActivitiesPage;
+
+// import React, { useEffect, useState, useCallback} from 'react';
+// import { useSelector } from 'react-redux';
+// import axios from 'axios';
+// import CardComp from '../Card';
+
+// const ActivitiesPage = ({ onBack }) => {
+//   const [activities, setActivities] = useState([]);
+//   const [wishlist, setWishlist] = useState([]);
+//   const [userEmail, setUserEmail] = useState(null);
+//   const token = useSelector((state) => state.user.token);
+ 
+//   useEffect(() => {
+//     const fetchUserEmail = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:3000/auth/getName", {
+//           headers: { Authorization: `Bearer ${token}` }
+//         });
+//         setUserEmail(response.data.email);
+//       } catch (error) {
+//         console.error("Error fetching user email", error);
+//       }
+//     };
+
+//     fetchUserEmail();
+//   }, [token]);
+
+//   const fetchActivities =  useCallback( async () => {
+//     try {
+//       const response = await axios.get("http://localhost:3000/activities/getAll", {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         }
+//       });
+//       console.log(response.data);
+//       if (response.data.data) {
+//         setActivities(response.data.data);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching activities:', error);
+//     }
+//   }, [token]);
+
+//   const fetchWishlist = useCallback(async () => {
+//     if (!userEmail) {
+//       console.error("User email not found");
+//       return;
+//     }
+
+//     try {
+//       const response = await axios.get("http://localhost:3000/wishlist/getWishlist", {
+//       params: { email: userEmail },  
+//       headers: {
+//           Authorization: `Bearer ${token}`,
+//         }
+//       });
+//       if (response.data.data) {
+//         setWishlist(response.data.data);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching wishlist:', error.response || error.message);
+//     }
+//   }, [token, userEmail]);
+
+//   useEffect(() => {
+//     fetchActivities();
+//     if (userEmail) {
+//       fetchWishlist();
+//     }
+//   }, [fetchActivities, fetchWishlist, userEmail]);
+
+//   const isWishlistAdded = (activity) => {
+//     const wishlistAdded = wishlist.some(wishlistItem => wishlistItem.type === 'activity' && wishlistItem.itemName === activity.type);
+//     console.log('wishlistAdded:', wishlistAdded); // Log the value of wishlistAdded
+//     return wishlistAdded;
+//   };
+
+//   return (
+//     <div>
+//       <div style={{ backgroundColor: '#7AA59F', padding: '20px', textAlign: 'center' }}>
+//         <button onClick={onBack}>Back</button>
+//         <h1>Activities</h1>
+//       </div>
+
+//       <div style={{ padding: '20px' }}>
+//         <h1>Available Activities</h1>
+//         <div style={{ display: 'flex', flexWrap: 'wrap', padding: '20px'}}>
+//           {activities.map(activity => (
+//             <CardComp  
+//             key={activity._id}
+//             image={activity.image} 
+//             title={activity.type} 
+//             subtitle={`activity.city ? ${activity.city.name} : 'No city info'`} 
+//             additionalInfo="Additional activity information can go here."
+//             type="activity"
+//             itemName={activity.type}
+//             token={token}
+//             wishlistAdded={isWishlistAdded(activity)}
+//            />
+//           )
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ActivitiesPage;
