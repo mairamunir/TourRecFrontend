@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { ArrowBackIos } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 const AddTransportForm = () =>{
   const navigate = useNavigate();
+const token =useSelector((state)=>state.user.token);
 
     const formik = useFormik({
         initialValues: {
@@ -17,23 +19,26 @@ const AddTransportForm = () =>{
           company:"",
         },
         onSubmit: async (values) => {
-          
-          try {
-            const response = await axios.post("http://localhost:3000/transport/addTransport", {
-              ...values,
-            });
-            if (response.data.msg === "TRANSPORT EXISTS") {
-              toast.warn("Transport already exists");
-            } else {
-              toast.success(response.data.msg);
+            try {
+                const response = await axios({
+                    method: "PUT",
+                    url: "http://localhost:3000/transport/addTransport",
+                    data: values,
+                    headers: { Authorization: `Bearer ${token} `},
+                  });
+                if (response.data.msg === "TRANSPORT EXISTS") {
+                  toast.warn("Transport already exists");
+                } else {
+                  toast.success(response.data.msg);
+                }
+          } catch (error) {
+           
+              toast.error("An error occurred while adding");
             }
-      } catch (error) {
-       
-          toast.error("An error occurred while adding");
-        }
-      
-    },
-  });
+          
+        },
+      });
+    
 
     return(
       <Box  sx={{

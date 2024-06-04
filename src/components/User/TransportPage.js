@@ -14,6 +14,7 @@ const TransportPage =() =>{
     const [searchType, setSearchType] = useState("all");
     const [searchResults, setSearchResults] = useState([]);
     const token = useSelector((state) => state.user.token);
+    const isAdmin = useSelector((state)=>state.user.roles.admin);
 
     useEffect(() => {
         if (searchType === "all") {
@@ -82,7 +83,6 @@ const TransportPage =() =>{
 
     return(
         <Box>
-
 <Box sx={{ display: 'flex', alignItems: 'center' }}>
     <ArrowBackIos onClick={()=>navigate('/userPage')} sx={{cursor: 'pointer',float: "left", marginTop:2, marginLeft:2, marginBottom: 2 }}/>
     <Typography variant="body1" sx={{ marginLeft: 1 }}>Back to Home Page</Typography>
@@ -112,6 +112,7 @@ const TransportPage =() =>{
                     <button style={{ marginLeft: '10px'}} onClick={handleSearch}>Search</button>
                 </div>
                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+
           {searchResults.map(transport => (
              <CardComponent 
              key={transport._id}
@@ -119,6 +120,9 @@ const TransportPage =() =>{
              title={transport.name} 
              subtitle={transport.type}
              additionalInfo= {`Contact: ${transport.contact}`}
+             token={token}
+             isAdmin={isAdmin}
+             
             />
           ))}
         </div>

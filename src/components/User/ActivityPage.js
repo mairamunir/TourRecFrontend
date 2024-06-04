@@ -12,6 +12,7 @@ const ActivitiesPage = ({ onBack }) => {
   const [searchName, setSearchName] = useState("all");
   const [searchResults, setSearchResults] = useState([]);
   const token = useSelector((state) => state.user.token);
+  const isAdmin = useSelector((state)=>state.user.roles.admin)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,8 +116,8 @@ const ActivitiesPage = ({ onBack }) => {
             key={activity._id}
             image={activity.image} 
             title={activity.type} 
-            subtitle={activity.city ? activity.city.name : 'No city info'} 
-           
+            additionalInfo={activity.description} 
+           isAdmin={isAdmin}
            />
           )
           )}

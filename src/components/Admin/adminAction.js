@@ -45,6 +45,14 @@ const AdminActions = () => {
         backgroundColor : '#02564E',
       }}} onClick={()=>navigate('/addTransport')}>Add Transport</Button>
 
+<Button variant="contained" sx={{backgroundColor : '#7AA59F', marginBottom: 2, width: '100%', '&:hover':{
+        backgroundColor : '#02564E',
+      }}} onClick={()=>navigate('/addRestaurant')}>Add Restaurant</Button>
+
+<Button variant="contained" sx={{backgroundColor : '#7AA59F', marginBottom: 2, width: '100%', '&:hover':{
+        backgroundColor : '#02564E',
+      }}} onClick={()=>navigate('/addActivity')}>Add Activity</Button>
+
 <Button variant="contained" sx={{backgroundColor : '#7AA59F', marginBottom: 2,  width: '100%','&:hover':{
         backgroundColor : '#02564E',
       }}} onClick={()=>navigate('/addHotel')}>Add Hotel</Button>

@@ -5,7 +5,7 @@ import CardComponent from './CardUniversal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Box,Typography } from "@mui/material";
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, RestartAlt } from "@mui/icons-material";
 
 const RestaurantPage = () => {
   const [restaurant, setRestaurants] = useState([]);
@@ -13,6 +13,7 @@ const RestaurantPage = () => {
   const [searchName, setSearchName] = useState("all");
   const [searchResults, setSearchResults] = useState([]);
   const token = useSelector((state) => state.user.token);
+  const isAdmin = useSelector((state)=>state.user.roles.admin)
   const navigate = useNavigate();
 
   
@@ -35,6 +36,7 @@ const RestaurantPage = () => {
       if (response.data.data) {
         setRestaurants(response.data.data);
         setSearchResults(response.data.data);
+        
 
       }
       else{
@@ -55,7 +57,7 @@ const RestaurantPage = () => {
             Authorization: `Bearer ${token}`
           }
         });
-      } else if(searchName=="city"){
+      } else if(searchName==="city"){
         response = await axios.post("http://localhost:3000/restaurant/getByCityName", { name: searchQuery }, {
             headers: {
               Authorization: `Bearer ${token}`
@@ -96,6 +98,60 @@ const RestaurantPage = () => {
     }
   };
 
+//   const deleteRestaurant = async (name) =>{
+//     try {
+//       const RestaurantToDelete = restaurant.find(restaurant => restaurant.name === name);
+//       if (!RestaurantToDelete) {
+//           toast.error('Restaurant not found');
+//           return;
+//       }
+//       const userConfirmed = window.confirm(`Are you sure you want to remove this restaurant: ${name}?`);
+// if (!userConfirmed) {
+//   return;
+// }
+//       const ResId = RestaurantToDelete._id;
+      
+//       const response = await axios.delete("http://localhost:3000/restaurant/deleteByName", {
+//           headers: {
+//               Authorization: `Bearer ${token}`
+//           },
+//           data: {
+//               name: name
+//           }
+//       });
+//       if (response.status === 200) {
+//           toast.success('Restaurant deleted successfully');
+//           setRestaurants(restaurant.filter(restaurant => restaurant._id !== ResId));
+//       } else {
+//           toast.error(response.data.msg || 'Error deleting Restaurant');
+//       }
+//   } catch (error) {
+//       console.error('Error deleting restaurant:', error);
+//       toast.error('Error deleting restaurant.');
+//   }
+// };
+// In RestaurantPage.js
+const deleteRestaurant = async (id) => {
+  try {
+    // Send the ID directly to the backend for deletion
+    const response = await axios.delete(`http://localhost:3000/restaurant/deleteByName/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (response.status === 200) {
+      toast.success('Restaurant deleted successfully');
+      setRestaurants(restaurant.filter(restaurant => restaurant._id !== id));
+    } else {
+      toast.error(response.data.msg || 'Error deleting Restaurant');
+    }
+  } catch (error) {
+    console.error('Error deleting restaurant:', error);
+    toast.error('Error deleting restaurant.');
+  }
+};
+
+
   return (
 <Box>
    
@@ -119,7 +175,7 @@ const RestaurantPage = () => {
 
           <select style={{ marginRight: '10px' }} value={searchName} onChange={(e) => setSearchName(e.target.value)}>
             <option value="all">All</option>
-            <option value="province">By Province</option>
+            <option value="city">By City</option>
             <option value="name">By Name</option>
           </select>
 
@@ -131,7 +187,13 @@ const RestaurantPage = () => {
           {restaurant.map(restaurants => (
 
             <CardComponent key={restaurants._id} image={restaurants.image} title={restaurants.name} 
-            subtitle={restaurants.description}  />
+
+            subtitle={restaurants.cuisine} 
+
+            additionalInfo= "contact" 
+            isAdmin={isAdmin}
+            onDelete={deleteRestaurant}
+            />
             
           ))}
         </div>

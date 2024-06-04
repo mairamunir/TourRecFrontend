@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Box,Typography } from "@mui/material";
 import { ArrowBackIos } from "@mui/icons-material";
 const GuidePage = () => {
+  const isAdmin = useSelector((state)=>state.user.roles.admin)
   const [guides, setGuides] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchName, setSearchName] = useState("all");
@@ -118,7 +119,9 @@ const GuidePage = () => {
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {guides.map(guide => (
             <CardComponent key={guide._id} image={guide.image} title={guide.name} 
-            subtitle={guide.number} additionalInfo="email" />
+            subtitle={`Contact: ${guide.contact}`} 
+            additionalInfo={`Email: ${guide.email}`}
+            isAdmin={isAdmin}/>
           ))}
         </div>
       </div>

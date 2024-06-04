@@ -4,36 +4,40 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddCityForm = () =>{
   const navigate = useNavigate();
-
-    const formik = useFormik({
-        initialValues: {
-          name: "",
-          country: "Pakistan",
-          image:"",
-          province: "",
-        },
-        onSubmit: async (values) => {
-          
-          try {
-            const response = await axios.post("http://localhost:3000/city/addCity", {
-              ...values,
-            });
-            if (response.data.msg === "CITY EXISTS") {
-              toast.warn("City already exists");
-            } else {
-              toast.success(response.data.msg);
-            }
-      } catch (error) {
-       
-          toast.error("An error occurred while adding");
-        }
-      
+const token = useSelector((state)=>state.user.token)
+const formik = useFormik({
+    initialValues: {
+      name: "",
+      country: "Pakistan",
+      image:"",
+      province: "",
     },
-  });
+    onSubmit: async (values) => {
+      
+      try {
+        const response = await axios({
+            method: "PUT",
+            url: "http://localhost:3000/city/addCity",
+            data: values,
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        if (response.data.msg === "CITY EXISTS") {
+          toast.warn("City already exists");
+        } else {
+          toast.success(response.data.msg);
+        }
+  } catch (error) {
+   
+      toast.error("An error occurred while adding");
+    }
+  
+},
+});
+
 
     return(
       <Box  sx={{

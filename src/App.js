@@ -28,6 +28,8 @@ import AddCityForm from "./components/Admin/addCity";
 import AddGuideForm from "./components/Admin/addGuide";
 import DashBoard from "./components/dashBoard";
 import AdminActions from "./components/Admin/adminAction";
+import AddRestaurantForm from "./components/Admin/addRestaurant";
+import AddActivityForm from "./components/Admin/addActivity";
 
 function App() {
   const { loggedIn,roles } = useSelector((state) => state.user);
@@ -79,6 +81,10 @@ if (loggedIn) {
           <Route path = "/addTransport" element= {<AddTransportForm/>}/>
           <Route path = "/addCity" element= {<AddCityForm/>}/>
           <Route path = "/addGuide" element= {<AddGuideForm/>}/>
+
+          <Route path = "/addRestaurant" element= {<AddRestaurantForm/>}/>
+
+          <Route path = "/addActivity" element= {<AddActivityForm/>}/>
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

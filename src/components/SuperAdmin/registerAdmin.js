@@ -23,7 +23,7 @@ const navigate = useNavigate();
         onSubmit: async (values) => {
           
             try {
-                const response = await axios.get("http://localhost:3000/superAdmin/registerAdmin", values,  {
+                const response = await axios.post("http://localhost:3000/superAdmin/registerAdmin", values,  {
                   headers: {
                     Authorization: `Bearer ${token}`
                   }

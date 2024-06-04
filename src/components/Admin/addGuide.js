@@ -5,34 +5,41 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ArrowBackIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const AddGuideForm = () =>{
 const navigate = useNavigate();
+const token = useSelector((state) => state.user.token);
     const formik = useFormik({
         initialValues: {
           name: "",
           city: "",
           image:"",
+          email: "",
           contact: "",
           website:"",
         },
         onSubmit: async (values) => {
           
-          try {
-            const response = await axios.post("http://localhost:3000/guide/addGuide", {
-              ...values,
-            });
-            if (response.data.msg === "GUIDE EXISTS") {
-              toast.warn("Guide already exists");
-            } else {
-              toast.success(response.data.msg);
+            try {
+                const response = await axios({
+                    method: "POST",
+                    url: "http://localhost:3000/guide/addGuide",
+                    data: values,
+                    headers: { Authorization: `Bearer ${token}` },
+                  });
+                if (response.data.msg === "GUIDE EXISTS") {
+                  toast.warn("Guide already exists");
+                } else {
+                  toast.success(response.data.msg);
+                }
+          } catch (error) {
+           
+              toast.error("An error occurred while adding");
             }
-      } catch (error) {
-       
-          toast.error("An error occurred while adding");
-        }
-      
-    },
-  });
+          
+        },
+      });
+    
 
     return(
         <Box sx={{
@@ -70,6 +77,16 @@ const navigate = useNavigate();
         variant="outlined"
         sx={{ marginBottom: 2 }}
       />
+
+    <TextField
+      required
+        onChange={formik.handleChange}
+        value={formik.values.email}
+        name="email"
+        label="Email"
+        variant="outlined"
+        sx={{ marginBottom: 2 }}
+      />
     
       <TextField
       required
@@ -99,7 +116,7 @@ const navigate = useNavigate();
         sx={{ marginBottom: 2 }}
       />
       <TextField
-      required
+      
         onChange={formik.handleChange}
         value={formik.values.website}
         name="website"
