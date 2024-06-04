@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import CardComponent from './CardUniversal';
@@ -6,24 +6,25 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ArrowBackIos } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
+
 const CityPage = () => {
   const [cities, setCities] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchName, setSearchName] = useState("all");
   const [searchResults, setSearchResults] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const token = useSelector((state) => state.user.token);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (searchName === "all") {
-      fetchCities();
-    } else {
-      searchCity();
-    }
-  }, [searchName]);
 
-  const fetchCities = async () => {
+  const isWishlistAdded = (activity) => {
+    const wishlistAdded = wishlist.some(wishlistItem => wishlistItem.type === 'city' && wishlistItem.itemName === activity.name);
+    console.log('wishlistAdded:', wishlistAdded); // Log the value of wishlistAdded
+    return wishlistAdded;
+  };
+
+  const fetchCities = useCallback( async () => {
     try {
       const response = await axios.get("http://localhost:3000/city/getAll", {
         headers: {
@@ -40,7 +41,27 @@ const CityPage = () => {
       console.error('Error fetching cities:', error);
       toast.error('Error fetching cities.');
     }
-  };
+  }, [token]);
+
+  const fetchWishlist = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/wishlist/getWishlist", {  
+      headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      console.log("Wishlist response:", response.data);
+      if (Array.isArray(response.data.data)) {
+        setWishlist(response.data.data);
+      } else {
+        setWishlist([]); // Ensure wishlist is always an array
+      }
+    } catch (error) {
+      console.error('Error fetching wishlist:', error.response || error.message);
+      setWishlist([]); // Ensure wishlist is always an array
+    }
+  }, [token]);
+
 
   const searchCity = async () => {
     try {
@@ -54,7 +75,7 @@ const CityPage = () => {
       } else if (searchName === "name") {
         response = await axios.post("http://localhost:3000/city/getByCityName", { name: searchQuery }, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization:`Bearer ${token}`
           }
         });
       }
@@ -75,6 +96,16 @@ const CityPage = () => {
       toast.error('Error searching city.');
     }
   };
+
+  useEffect(() => {
+    if (searchName === "all") {
+      fetchCities();
+    } else {
+      searchCity();
+    }
+    fetchWishlist();
+
+  }, [token, fetchCities, fetchWishlist,searchName]);
 
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
@@ -120,7 +151,10 @@ const CityPage = () => {
              image={city.image} 
              title={city.name} 
              subtitle={city.province} 
-           
+             type="city"
+            itemName={city.name}
+            token={token}
+            wishlistAdded={isWishlistAdded(city)}
             />
           ))}
         </div>
@@ -131,64 +165,4 @@ const CityPage = () => {
 };
 
 export default CityPage;
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import axios from 'axios';
-// import CardComp from './Card';
-
-// const CityPage = () => {
-//     const [cities, setCities] = useState([]);
-//     const token = useSelector((state) => state.user.token);
-  
-//     const fetchCities = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:3000/city/getAll", {
-//           headers: {
-//             Authorization: `Bearer ${token}`
-//           }
-//         });
-//         if (response.data.data) {
-//           setCities(response.data.data);
-//         }
-//       } catch (error) {
-//         console.error('Error fetching cities:', error);
-//       }
-//     };
-  
-//     useEffect(() => {
-//       fetchCities();
-//     }, []);  
-
-//     return (
-//         <div>
-//             <div style={{ backgroundColor: '#7AA59F', padding: '20px', textAlign: 'center' }}>
-//               <div>
-//                 <button style={{ marginRight: '10px' }}>Hotels</button>
-//                 <button style={{ marginRight: '10px' }}>Restaurants</button>
-//                 <button style={{ marginRight: '10px' }}>Transports</button>
-//                 <button style={{ marginRight: '10px' }}>Activities</button>
-//                 <button style={{ marginRight: '10px' }}>Landmarks</button>
-//                 <button>Guides</button>
-//               </div>
-//             </div>
-    
-//             <div style={{ padding: '20px' }}>
-//               <h1>Top Cities To Explore In Pakistan!</h1>
-//               <p>This is where you can choose the next city you want to explore.</p>
-    
-//               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-//                 {cities.map(city => (
-//                   <CardComp key={city._id} city={city} />
-//                 ))}
-//               </div>
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default CityPage;
-
 

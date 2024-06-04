@@ -1,21 +1,30 @@
 import CardComponent from "./CardUniversal";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Box,Typography } from "@mui/material";
 import { ArrowBackIos } from "@mui/icons-material";
+
 const GuidePage = () => {
-  const isAdmin = useSelector((state)=>state.user.roles.admin)
   const [guides, setGuides] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchName, setSearchName] = useState("all");
   const [searchResults, setSearchResults] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+
   const token = useSelector((state) => state.user.token);
+  const isAdmin = useSelector((state)=>state.user.roles.admin)
   const navigate = useNavigate();
 
-  const fetchGuides = async () => {
+  const isWishlistAdded = (activity) => {
+    const wishlistAdded = wishlist.some(wishlistItem => wishlistItem.type === 'guide' && wishlistItem.itemName === activity.type);
+    console.log('wishlistAdded:', wishlistAdded); // Log the value of wishlistAdded
+    return wishlistAdded;
+  };
+
+  const fetchGuides = useCallback( async () => {
     try {
       const response = await axios.get("http://localhost:3000/guide/getAll", {
         headers: {
@@ -34,15 +43,26 @@ const GuidePage = () => {
       console.error('Error fetching Guides:', error);
       toast.error('Error fetching Guides.');
     }
-  };
+  }, [token]);
 
-  useEffect(() => {
-    if (searchName === "all") {
-      fetchGuides();
-    } else {
-      searchGuide();
+  const fetchWishlist = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/wishlist/getWishlist", {  
+      headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      console.log("Wishlist response:", response.data);
+      if (Array.isArray(response.data.data)) {
+        setWishlist(response.data.data);
+      } else {
+        setWishlist([]); // Ensure wishlist is always an array
+      }
+    } catch (error) {
+      console.error('Error fetching wishlist:', error.response || error.message);
+      setWishlist([]); // Ensure wishlist is always an array
     }
-  }, [searchName]);
+  }, [token]);
 
   const searchGuide = async () => {
     try {
@@ -77,6 +97,15 @@ const GuidePage = () => {
       toast.error('Error searching guide.');
     }
   };
+
+  useEffect(() => {
+    if (searchName === "all") {
+      fetchGuides();
+    } else {
+      searchGuide();
+    }
+    fetchWishlist();
+  }, [token, fetchGuides, fetchWishlist,searchName]);
 
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
@@ -118,10 +147,18 @@ const GuidePage = () => {
 
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {guides.map(guide => (
-            <CardComponent key={guide._id} image={guide.image} title={guide.name} 
-            subtitle={`Contact: ${guide.contact}`} 
-            additionalInfo={`Email: ${guide.email}`}
-            isAdmin={isAdmin}/>
+            <CardComponent 
+            key={guide._id} 
+            image={guide.image} 
+            title={guide.name} 
+            subtitle={guide.number} 
+            additionalInfo="email"
+            type="guide"
+            itemName={guide.type}
+            token={token}
+            wishlistAdded={isWishlistAdded(guide)}
+            isAdmin={isAdmin}
+ /> 
           ))}
         </div>
       </div>
@@ -131,3 +168,4 @@ const GuidePage = () => {
 };
 
 export default GuidePage;
+

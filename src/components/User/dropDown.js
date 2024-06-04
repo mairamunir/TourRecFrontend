@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -13,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/user.reducer';
 
 
-const settings = ['Update Password', 'View Profile','Log Out'];
+const settings = ['Update Password', 'View Profile','View Wishlist','Log Out'];
 
 function DropdownMenu() {
  
@@ -38,6 +36,8 @@ const navigate = useNavigate();
       navigate('/updatePassword'); 
     } else if (setting === 'View Profile') {
       navigate('/viewProfile'); 
+    }else if(setting === 'View Wishlist') {
+      navigate('/viewWishlist'); 
     }
   };
 
@@ -77,3 +77,6 @@ const navigate = useNavigate();
 );
 }
 export default DropdownMenu;
+
+
+
